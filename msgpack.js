@@ -547,8 +547,12 @@
 		// Node.js
 		module.exports = msgpack;
 	}
-	else {
-		// Global object
+	else if (typeof WorkerGlobalScope === "function" && self instanceof WorkerGlobalScope) {
+		// Web Worker scope
+		self.msgpack = msgpack;
+	}
+	else if (typeof window === "object") {
+		// Web browser
 		window[window.msgpackJsName || "msgpack"] = msgpack;
 	}
 
